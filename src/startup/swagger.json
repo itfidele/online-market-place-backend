@@ -1,0 +1,264 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.6",
+      "title": "Jiji Demo Backend API"
+    },
+    "host": "127.0.0.1:3010",
+    "tags": [
+      
+      {
+        "name": "Accounts",
+        "description": "Endpoints for Accounts"
+      },
+      {
+        "name": "Users",
+        "description": "Users operations endpoints"
+      },
+      {
+        "name": "Students",
+        "description": "Endpoints for Students"
+      }
+    ],
+    "schemes": ["http", "https"],
+    "paths": {
+      "/account/register/":{
+        "post":{
+          "tags":["Accounts"],
+          "summary":"Register a user",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to register",
+              "required": true,
+              "schema": { "$ref": "#/definitions/User" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            }
+          }
+        }
+      },
+      "/account/login": {
+        "post": {
+          "tags": ["Accounts"],
+          "summary": "Login user to the system",
+          "description": "",
+          "operationId": "loginUser",
+          "produces": ["application/json", "application/xml"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to login",
+              "required": true,
+              "schema": { "$ref": "#/definitions/UserLogin" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+  
+              "schema": { "type": "string" }
+            },
+            "400": { "description": "Invalid username/password supplied" }
+          }
+        }
+      },
+      "/user/forgot": {
+        "post": {
+          "tags": ["Users"],
+          "summary": "Forgot user account",
+          "description": "",
+          "produces": ["application/json", "application/xml"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to reset account",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserForgot"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": { "type": "string" }
+            }
+          }
+        }
+      },
+      "/user/reset": {
+        "patch": {
+          "tags": ["Users"],
+          "summary": "Reset user account to the system",
+          "description": "",
+          "produces": ["application/json", "application/xml"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "User object that needs to reset account",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserReset"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": { "type": "string" }
+            }
+          }
+        }
+      },
+      "/account/update/{id}": {
+        "patch": {
+          "tags": ["Accounts"],
+          "summary": "Reset user account to the system",
+          "description": "",
+          "produces": ["application/json", "application/xml"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "User id for who you want to update",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": { "type": "string" }
+            }
+          }
+        }
+      },
+      "/user/students": {
+        "get": {
+          "tags": ["Students"],
+          "summary": "Get all students by School",
+          "description": "",
+          "produces": ["application/json", "application/xml"],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "schoolId",
+              "description": "School Unique id to get all students",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "contact": { "type": "string" },
+          "user_type": { "type": "bool" }
+        }
+      },
+      "UserForgot": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" }
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+      "UserReset": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "newPassword": { "type": "string" },
+          "confirmPassword": { "type": "string" }
+        }
+      },
+      "ParentUser":{
+        "type":"object",
+        "properties":{
+          "parent_first_name": { "type":"string"},
+          "parent_last_name": { "type":"string"},
+          "parent_email": { "type":"string"},
+          "parent_contact": { "type":"string"},
+          "parent_address": { "type":"string"},
+          "password": { "type":"string"}
+        }
+      },
+      "SchoolUser":{
+        "type":"object",
+        "properties":{
+          "school_name": { "type":"string"},
+          "school_email": { "type":"string"},
+          "school_contact": { "type":"string"},
+          "school_address": { "type":"string"},
+          "password": { "type":"string"}
+        }
+      },
+      "VendorUser":{
+        "type":"object",
+        "properties":{
+          "vendor_name": { "type":"string"},
+          "vendor_attendant_name": { "type":"string"},
+          "vendor_attendant_national_id": { "type":"string"},
+          "vendor_email": { "type":"string"},
+          "vendor_contact": { "type":"string"},
+          "school_id": { "type":"string"},
+          "password": { "type":"string"}
+        }
+      },
+      "VerifyEmailAndPin":{
+        "type":"object",
+        "properties":{
+          "email": { "type":"string"},
+          "pin": { "type":"string"}
+        }
+      },
+      "LoginUser":{
+        "type":"object",
+        "properties":{
+          "email": { "type":"string"},
+          "password": { "type":"string"}
+        }
+      },
+      "ForgotPassword":{
+        "type":"object",
+        "properties":{
+          "email": { "type":"string"}
+        }
+      },
+      "ResetPassword":{
+        "type":"object",
+        "properties":{
+          "key":{"type":"string"},
+          "newPassword":{"type":"string"},
+          "confirmPassword":{"type":"string"}
+        }
+      }
+  
+    }
+  }
+  
