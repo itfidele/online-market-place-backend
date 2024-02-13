@@ -63,6 +63,24 @@ class ProductController {
     
   }
 
+  public async getAllCategories(req:Request,res:Response){
+            
+    try{
+        const categories = await prisma.categories.findMany()
+        return res.status(200).json(categories)
+    }
+    catch(err){
+        console.log(err);
+        return res.status(400).json({
+            message:"something went wrong getting categories, try again!"
+        })
+    }
+    
+
+
+}
+
+
 
   public async addCategory(req: Request, res: Response, next: NextFunction) {
     const user = req.user as any;

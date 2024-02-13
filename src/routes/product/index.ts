@@ -9,6 +9,7 @@ const productRouter = Router();
 const productController = new ProductController();
 
 productRouter.use(mustBeAuthenticated);
+productRouter.get("/categories",productController.getAllCategories);
 productRouter.post("/add/category",productController.addCategory);
 productRouter.post("/create",upload.single('image'),productController.create);
 
